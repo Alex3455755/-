@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+body{
+    --firstColor: rgb(46, 205, 80);
+    --subColor: rgb(223, 68, 68);
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 10px 20px;
+    background-color: var(--firstColor);
+}
+.header a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.header a:hover {
+    background-color: var(--subColor);
+}

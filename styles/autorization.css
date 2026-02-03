@@ -1,0 +1,93 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    --firstColor: rgb(46, 205, 80);
+    --subColor: rgb(223, 68, 68);
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+.auth-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+.auth-form h2 {
+    color: var(--firstColor);
+    margin-bottom: 30px;
+}
+.auth-form input[type="text"],
+.auth-form input[type="password"],
+.auth-form input[type="tel"],
+.auth-form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.auth-form input[type="submit"]{
+    background-color: rgb(46, 205, 80);
+}
+.auth-form input[type="submit"]:hover{
+    background-color: rgb(71, 171, 93);
+}
+.auth-form input:focus{
+    outline: none;
+    box-shadow: 0 0 10px var(--firstColor);
+}
+.auth-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--firstColor);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.auth-form button:hover {
+    background-color: var(--subColor);
+}
+.error {
+    background: #d4edda; /* Светло-зеленый цвет фона */
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    left: 34%;
+    right: 32%;
+    top: 156px;
+    padding: 15px;
+    border-radius: 26px;
+    text-align: center;
+    z-index: 1000; /* Убедитесь, что элемент отображается поверх других */
+}
+
+.error span {
+    display: block;
+    float: left;
+    color: white;
+    background-color: #c43a2c; /* Темно-красный цвет фона */
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 3px;
+}
+
+.error span:hover {
+    background-color: #9b2e26; /* Еще более темный красный при наведении */
+}
