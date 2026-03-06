@@ -64,7 +64,7 @@ body{
                 <a href="../index.php" class="logo">СпортМания</a>
                 <nav>
                 <a href="autorization.php">Войти</a>
-                <a href="registration.php">Регистрация</a>
+                <a href="pages/registration.php">Регистрация</a>
                 <a href="basket.php">Корзина</a>
             </nav>';
             }
@@ -81,7 +81,7 @@ body{
                 <a href="index.php" class="logo">СпортМания</a>
                 <nav>
                 <a href="pages/autorization.php">Войти</a>
-                <a href="registration.php">Регистрация</a>
+                <a href="pages/registration.php">Регистрация</a>
                 <a href="pages/basket.php">Корзина</a>
             </nav>';
             }

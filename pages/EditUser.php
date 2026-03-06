@@ -64,18 +64,56 @@
 <?php
     include_once "../connection/connection.php";
     $post_id = $_GET['id'] ?? null;
+    function encryptAES($data, $key = SECRET_KEY) {
+    $keyHash = md5($key, true);
+    
+    $iv = random_bytes(16);
+    
+    $encrypted = openssl_encrypt(
+        $data, 
+        'AES-128-CBC',
+        $keyHash, 
+        OPENSSL_RAW_DATA,
+        $iv
+    );
+    $combined = $iv . $encrypted;
+    
+    return base64_encode($combined);
+}
+
+function decryptAES($encryptedBase64, $key = SECRET_KEY) {
+    $keyHash = md5($key, true);
+    
+    $combined = base64_decode($encryptedBase64);
+    if ($combined === false) {
+        return false;
+    }
+    
+    $iv_length = 16;
+    $iv = substr($combined, 0, $iv_length);
+    $ciphertext = substr($combined, $iv_length);
+    
+    $decrypted = openssl_decrypt(
+        $ciphertext,
+        'AES-128-CBC',
+        $keyHash,
+        OPENSSL_RAW_DATA,
+        $iv
+    );
+    
+    return $decrypted;
+}
 
     if ($post_id) {
-        // Запрос для получения данных записи
         $query = mysqli_query($db, "SELECT * FROM `Clients` WHERE `id` = $post_id");
         $response = mysqli_num_rows($query);
 
         while ($row = mysqli_fetch_assoc($query)) {
             $id = $row['id'];
-            $name = $row['login'];
-            $password = $row['password'];
+            $name = decryptAES($row['login'],SECRET_KEY);
+            $password = decryptAES($row['password'],SECRET_KEY);
             $role = $row['role'];
-            $phone = $row['phone'];
+            $phone = decryptAES($row['phone'],SECRET_KEY);
         }
     } else {
         echo "Неверный ID записи.";
@@ -83,10 +121,10 @@
     }
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateUser'])){
         $id = $_POST['id'];
-        $name= $_POST['name'];
-        $password= $_POST['password'];
+        $name= encryptAES($_POST['name'],SECRET_KEY);
+        $password= encryptAES($_POST['password'],SECRET_KEY);
         $role= $_POST['role'];
-        $phone= $_POST['phone'];
+        $phone= encryptAES($_POST['phone'],SECRET_KEY);
         $query = mysqli_query($db, "UPDATE `Clients` SET `login`='$name',`password`='$password',`role`='$role',`phone`='$phone' WHERE `id`='$id'");
 
         header("Location: Admin.php");

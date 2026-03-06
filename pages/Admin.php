@@ -151,6 +151,36 @@ include "../elements/header.php";?>
         </main>
         <div class="listElems">
             <?php
+
+            function decryptAES($encryptedData, $key){
+
+		$data = base64_decode($encryptedData);
+
+		if($data === false || strlen($data)<17){
+			error_log('Invalid data');
+			return false;
+		}
+
+		$iv = substr($data,0,16);
+		 
+		$encrypted = substr($data,16);
+
+		$keyHash = md5($key);
+		$keyBytes = hex2bin($keyHash);
+
+		$decrypted = openssl_decrypt(
+			$encrypted,
+			'aes-128-cbc',
+			$keyBytes,
+			OPENSSL_RAW_DATA,
+			$iv
+		);
+
+		return $decrypted;
+	}
+
+
+	$secretKey = "qazalskdjflksjdfks";
             if($cat == 'products'){
                 foreach($listElems as $elem)
                 {
@@ -177,9 +207,9 @@ include "../elements/header.php";?>
                 {
                    echo '<div class="user-card">
                    <div class="info"><strong>ID:</strong>' .$elem['id'] .'</div>
-                <div class="name">'. $elem['login'] . '</div>
+                <div class="name">'. decryptAES($elem['login'],$secretKey) . '</div>
                 <div class="role"><strong>Роль:</strong> '. $elem['role'] . '</div>
-                <div class="info"><strong>Телефон:</strong>'. $elem['phone'] .'</div>
+                <div class="info"><strong>Телефон:</strong>'. decryptAES($elem['phone'],$secretKey) .'</div>
                 <div class="buttons">
                     <a href="EditUser.php?id=' .$elem['id'].'" >Изменить</a>
                     <form method="post" action="" style="display:inline;">
